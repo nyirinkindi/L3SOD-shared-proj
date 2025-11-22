@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLEVER Kitchen - Online Ordering</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        /* --- CLEVER Kitchen Pure Black & Red Theme (High Contrast) --- */
+        :root {
+            --color-bg-dark: #0a0a0a; /* Near Pure Black */
+            --color-bg-card: #1a1a1a; /* Dark Gray-Black for Contrast */
+            --color-accent-red: #FF0000; /* Pure Red Accent */
+            --color-text-light: #FFFFFF; /* Pure White Text */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-light);
+        }
+        .menu-card {
+            background-color: var(--color-bg-card);
+            transition: transform 0.2s, box-shadow 0.3s;
+            border: 1px solid var(--color-accent-red);
+            border-radius: 8px; /* Use sharp, professional corners */
+        }
+        .menu-card:hover {
+            transform: translateY(-5px);
+            /* Aggressive red glow/shadow */
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6); 
+        }
+        .btn-primary {
+            background-color: var(--color-accent-red);
+            transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+            border-radius: 4px;
+            box-shadow: 0 4px 0 rgba(200, 0, 0, 0.8);
+        }
+        .btn-primary:hover {
+            background-color: #E00000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 rgba(200, 0, 0, 0.8);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 0 rgba(200, 0, 0, 0.8);
+        }
+        /* Custom scrollbar for cart */
+        #cart-items {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .text-accent {
+            color: var(--color-accent-red);
+        }
+        .bg-card {
+            background-color: var(--color-bg-card);
+        }
+        /* Style for the professional input fields */
+        .pro-input {
+            background-color: #0a0a0a;
+            border: 1px solid #333333;
+            color: #FFFFFF;
+            padding: 0.75rem;
+            border-radius: 4px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .pro-input:focus {
+            border-color: var(--color-accent-red);
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+        }
+        /* High contrast success/error messages */
+        .status-success {
+            background-color: #003300;
+            border-left-color: #00FF00;
+            color: #00FF00;
+        }
+        .status-processing {
+            background-color: #000033;
+            border-left-color: #00FFFF;
+            color: #00FFFF;
+        }
+        .status-warning {
+            background-color: #333300;
+            border-left-color: #FFFF00;
+            color: #FFFF00;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header & Navigation -->
+    <header class="bg-card shadow-xl sticky top-0 z-10 border-b-2 border-accent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold text-white flex items-center tracking-wider">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-accent mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 2a8 8 0 100 16A8 8 0 0010 2zm1 11a1 1 0 10-2 0v2a1 1 0 102 0v-2zM9 8a1 1 0 012 0v2a1 1 0 11-2 0V8z" clip-rule="evenodd" />
+                    <path d="M11 6a1 1 0 10-2 0v1a1 1 0 102 0V6z" />
+                </svg>
+                CLEVER Kitchen
+            </h1>
+            <button id="cart-toggle-btn" class="btn-primary text-white font-semibold py-2 px-4 rounded-md flex items-center transition duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 3 13.016 3 14.25 3 15.518 4.029 16.5 5.25 16.5c1.221 0 2.25-.982 2.25-2.25 0-.174-.025-.345-.07-.514l-1.428-5.714a1 1 0 01.071-.482l.835-.835h6.634l.836.835a1 1 0 01.07.482l-1.428 5.714c-.045.169-.07.34-.07.514 0 1.268 1.03 2.25 2.25 2.25s2.25-.982 2.25-2.25c0-1.234-.741-2.404-1.854-3.518l-1.044-1.044.302-1.208C16.891 3.559 15.136 2 13 2H5a1 1 0 000 2h8a1 1 0 010 2H6.28l-.318 1.272.012.048 1.393 5.572.825.825-1.018 1.018-.707-.707.302-1.208.707-.707.302-1.208-.012-.048-1.393-5.572L5.5 4h8a1 1 0 010 2z" />
+                </svg>
+                Cart (<span id="cart-count">0</span>)
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:flex md:space-x-8 flex-grow">
+
+        <!-- Menu Section (Left Side) -->
+        <section class="md:w-3/4">
+            <h2 class="text-4xl font-extrabold text-white mb-6 border-b-2 border-accent pb-2 tracking-wide">SIGNATURE DISHES // ORDER SYSTEM</h2>
+            <div id="menu-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Menu Items will be injected here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Cart Section (Right Side) -->
+        <aside id="cart-sidebar" class="md:w-1/4 bg-card p-6 rounded-xl shadow-2xl mt-8 md:mt-0 transition-all duration-300 ease-in-out hidden md:block border border-accent/50">
+            <h3 class="text-2xl font-bold mb-4 text-white border-b border-gray-700 pb-2">ORDER LOG</h3>
+            
+            <div id="cart-items" class="space-y-4 mb-4 border-b border-gray-700 pb-4">
+                <p class="text-gray-500 italic text-center" id="empty-cart-message">No items in queue.</p>
+                <!-- Cart items list -->
+            </div>
+
+            <div class="flex justify-between items-center text-xl font-bold mb-4 pt-2">
+                <span>TOTAL:</span>
+                <span id="cart-total" class="text-accent text-2xl">$0.00</span>
+            </div>
+
+            <button id="checkout-btn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-md shadow-md disabled:opacity-30 transition duration-150">
+                PROCEED TO CHECKOUT
+            </button>
+        </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-card mt-8 py-4 border-t-2 border-accent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-xs">
+            <!-- FIXED: Year is now set dynamically via JS below -->
+            <p>&copy; <span id="current-year"></span> CLEVER Kitchen. All Rights Reserved. Developed by Game Docks Cooperation.</p>
+            <p>Owner Contact: <a href="mailto:cyusaclever@gmail.com" class="text-accent hover:underline">cyusaclever@gmail.com</a></p>
+        </div>
+    </footer>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-95 hidden items-center justify-center z-50 transition-opacity duration-300">
+        <div class="bg-card p-8 rounded-lg shadow-2xl w-full max-w-lg m-4 border-2 border-accent">
+            <div class="flex justify-between items-center mb-6 border-b border-gray-700 pb-3">
+                <h3 class="text-3xl font-extrabold text-white tracking-wide">PAYMENT INTERFACE</h3>
+                <button id="close-modal-btn" class="text-gray-400 hover:text-accent text-3xl leading-none">&times;</button>
+            </div>
+
+            <h4 class="text-xl font-semibold mb-4 text-white">Order Manifest</h4>
+            <div id="modal-cart-summary" class="mb-4 space-y-2 border-b border-gray-700 pb-4">
+                <!-- Summary items will be inserted here -->
+            </div>
+            
+            <div class="flex justify-between items-center text-2xl font-bold mb-6 pt-2">
+                <span>PAYMENT DUE:</span>
+                <span id="modal-final-total" class="text-accent text-3xl">$0.00</span>
+            </div>
+
+            <!-- Payment Simulation Warning -->
+            <div class="bg-red-900/40 border-l-4 border-accent text-red-300 p-4 mb-6 rounded-md" role="alert">
+                <p class="font-bold">WARNING: SIMULATION MODE ACTIVE</p>
+                <p class="text-sm">This is a UI demonstration. **DO NOT** enter real credentials. Transaction processing is simulated for security and demonstration purposes.</p>
+            </div>
+
+            <h4 class="text-xl font-semibold mb-4 text-white">Payment Protocol</h4>
+            <form id="payment-form" class="space-y-4">
+                <!-- Input for Payment Method 1: Credit Card -->
+                <div>
+                    <label for="card-number" class="block text-sm font-medium text-gray-400 mb-1">CARD NUMBER (16 Digits)</label>
+                    <input type="text" id="card-number" class="w-full pro-input" placeholder="XXXX XXXX XXXX XXXX" required maxlength="16" pattern="[0-9]{16}">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="expiry-date" class="block text-sm font-medium text-gray-400 mb-1">EXPIRY (MM/YY)</label>
+                        <input type="text" id="expiry-date" class="w-full pro-input" placeholder="MM/YY" required maxlength="5">
+                    </div>
+                    <div>
+                        <label for="cvv" class="block text-sm font-medium text-gray-400 mb-1">CVV (3 Digits)</label>
+                        <input type="text" id="cvv" class="w-full pro-input" placeholder="123" required maxlength="3" pattern="[0-9]{3}">
+                    </div>
+                </div>
+
+                <!-- Input for Payment Method 2: Placeholder for other methods -->
+                <div>
+                    <label for="payment-method-select" class="block text-sm font-medium text-gray-400 mb-1">ALTERNATIVE PROTOCOL</label>
+                    <select id="payment-method-select" class="w-full pro-input">
+                        <option value="card" selected>CREDIT/DEBIT CARD (PRIMARY)</option>
+                        <option value="paypal">SIMULATED PAYPAL GATEWAY</option>
+                        <option value="crypto">SIMULATED CRYPTO TRANSFER</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="pay-now-btn" class="w-full btn-primary text-white font-bold py-3 rounded-md shadow-lg">
+                    INITIATE PAYMENT (<span id="pay-now-amount">$0.00</span>)
+                </button>
+            </form>
+
+            <!-- Status/Success Message Box -->
+            <div id="status-box" class="mt-6 p-4 rounded-md text-center font-bold hidden border-l-4"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- Application Data ---
+        const menuItems = [
+            // Updated items with 'real food' style placeholders
+            { id: 1, name: "The Code Burger", price: 15.99, desc: "A gourmet patty topped with truffle aioli and fire-roasted peppers.", img: "https://placehold.co/100x100/A0522D/ffffff?text=Juicy+Burger" },
+            { id: 2, name: "Flash-Fried Garlic Potatoes", price: 6.50, desc: "Crispy skin-on potatoes seasoned with sea salt and garlic.", img: "https://placehold.co/100x100/F4A460/333333?text=Golden+Fries" },
+            { id: 3, name: "Binary Black Cola", price: 3.00, desc: "Artisan-crafted dark cola with natural cane sugar.", img: "https://placehold.co/100x100/1E90FF/ffffff?text=Black+Soda" },
+            { id: 4, name: "React Chicken Salad", price: 12.75, desc: "Grilled chicken, mixed greens, avocado, and lime vinaigrette.", img: "https://placehold.co/100x100/3CB371/ffffff?text=Chicken+Salad" },
+            { id: 5, name: "API Street Tacos (3)", price: 18.00, desc: "Premium spiced beef, pickled red onions, and artisanal cheese.", img: "https://placehold.co/100x100/FF6347/ffffff?text=Spicy+Tacos" },
+            { id: 6, name: "Server Steak (Ribeye)", price: 29.50, desc: "10oz Ribeye, perfectly seared and served with herb butter.", img: "https://placehold.co/100x100/B8860B/ffffff?text=Grilled+Steak" },
+        ];
+
+        // --- State Management ---
+        let cart = [];
+
+        // --- DOM Elements ---
+        const menuContainer = document.getElementById('menu-container');
+        const cartItemsList = document.getElementById('cart-items');
+        const cartTotalSpan = document.getElementById('cart-total');
+        const cartCountSpan = document.getElementById('cart-count');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const cartToggleBtn = document.getElementById('cart-toggle-btn');
+
+        const modal = document.getElementById('checkout-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const modalCartSummary = document.getElementById('modal-cart-summary');
+        const modalFinalTotal = document.getElementById('modal-final-total');
+        const payNowAmount = document.getElementById('pay-now-amount');
+        const paymentForm = document.getElementById('payment-form');
+        const payNowBtn = document.getElementById('pay-now-btn');
+        const statusBox = document.getElementById('status-box');
+        
+        // --- Utility Functions ---
+        const formatCurrency = (amount) => `$${amount.toFixed(2)}`;
+
+        // --- Core Application Logic ---
+
+        function renderMenu() {
+            menuContainer.innerHTML = menuItems.map(item => `
+                <div class="menu-card p-5 rounded-lg shadow-lg flex flex-col justify-between">
+                    <img src="${item.img}" onerror="this.onerror=null; this.src='https://placehold.co/100x100/222222/888888?text=CLEVER+Food';" alt="${item.name}" class="w-full h-32 object-cover rounded-sm mb-4 border border-gray-800">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">${item.name}</h3>
+                        <p class="text-gray-400 text-sm mb-2">${item.desc}</p>
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-2xl font-extrabold text-accent">${formatCurrency(item.price)}</span>
+                            <button onclick="addToCart(${item.id})" class="btn-primary text-white text-sm font-semibold py-2 px-4 rounded-md">
+                                ADD
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateCart() {
+            cartItemsList.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                emptyCartMessage.classList.remove('hidden');
+                checkoutBtn.disabled = true;
+                checkoutBtn.classList.add('opacity-30', 'cursor-not-allowed');
+                cartItemsList.classList.add('justify-center', 'items-center', 'flex');
+            } else {
+                emptyCartMessage.classList.add('hidden');
+                checkoutBtn.disabled = false;
+                checkoutBtn.classList.remove('opacity-30', 'cursor-not-allowed');
+                cartItemsList.classList.remove('justify-center', 'items-center', 'flex');
+
+                cart.forEach(item => {
+                    total += item.price * item.quantity;
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'flex justify-between items-center p-2 bg-[#101010] rounded-sm border border-gray-800';
+                    itemElement.innerHTML = `
+                        <div class="flex items-center space-x-2">
+                            <span class="font-bold text-accent">${item.quantity}x</span>
+                            <span class="text-sm font-medium text-gray-300">${item.name}</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-500">${formatCurrency(item.price * item.quantity)}</span>
+                            <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-300 p-1 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
+                        </div>
+                    `;
+                    cartItemsList.appendChild(itemElement);
+                });
+            }
+
+            cartTotalSpan.textContent = formatCurrency(total);
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCountSpan.textContent = totalItems;
+        }
+
+        window.addToCart = (itemId) => {
+            const item = menuItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            const existingItem = cart.find(c => c.id === itemId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...item, quantity: 1 });
+            }
+            updateCart();
+        };
+
+        window.removeFromCart = (itemId) => {
+            const itemIndex = cart.findIndex(c => c.id === itemId);
+            if (itemIndex > -1) {
+                if (cart[itemIndex].quantity > 1) {
+                    cart[itemIndex].quantity -= 1;
+                } else {
+                    cart.splice(itemIndex, 1);
+                }
+            }
+            updateCart();
+        };
+        
+        // --- Event Listeners and Modal Control ---
+
+        function openModal() {
+            if (cart.length === 0) return;
+
+            // Update modal summary
+            modalCartSummary.innerHTML = cart.map(item => `
+                <div class="flex justify-between text-base text-gray-300">
+                    <span class="text-gray-400">${item.quantity}x ${item.name}</span>
+                    <span class="font-medium text-white">${formatCurrency(item.price * item.quantity)}</span>
+                </div>
+            `).join('');
+
+            const finalTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            modalFinalTotal.textContent = formatCurrency(finalTotal);
+            payNowAmount.textContent = formatCurrency(finalTotal);
+
+            // Reset form state
+            statusBox.classList.add('hidden');
+            statusBox.className = 'mt-6 p-4 rounded-md text-center font-bold hidden border-l-4';
+            paymentForm.reset();
+            payNowBtn.disabled = false;
+            payNowBtn.textContent = `INITIATE PAYMENT (${formatCurrency(finalTotal)})`;
+
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+        
+        // Toggle cart visibility on small screens
+        cartToggleBtn.addEventListener('click', () => {
+            cartSidebar.classList.toggle('hidden');
+        });
+
+        checkoutBtn.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', closeModal);
+
+        // --- Simulated Payment Logic ---
+
+        paymentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Basic Form Validation Check (only if all required inputs are filled)
+            if (!this.checkValidity()) {
+                statusBox.textContent = 'ERROR: Required input fields are incomplete.';
+                statusBox.classList.remove('hidden');
+                statusBox.classList.add('status-warning');
+                return;
+            }
+
+            payNowBtn.disabled = true;
+            payNowBtn.textContent = 'PAYMENT PROTOCOL ACTIVE...';
+            statusBox.textContent = 'STATUS: Simulating secure data transfer...';
+            statusBox.classList.remove('hidden', 'status-warning');
+            statusBox.classList.add('status-processing');
+
+            // SIMULATION: Wait for 3 seconds
+            setTimeout(() => {
+                // Clear sensitive input fields
+                document.getElementById('card-number').value = '';
+                document.getElementById('expiry-date').value = '';
+                document.getElementById('cvv').value = '';
+                paymentForm.reset();
+
+                // Display Success Message
+                statusBox.textContent = 'SUCCESS: Transaction Authorized. Order Confirmed.';
+                statusBox.classList.remove('status-processing');
+                statusBox.classList.add('status-success');
+
+                // Reset cart after simulated success
+                cart = [];
+                updateCart();
+                payNowBtn.disabled = true;
+                payNowBtn.textContent = 'ORDER PLACED. THANK YOU.';
+
+                // Optionally close modal after a few seconds
+                setTimeout(closeModal, 5000);
+
+            }, 3000);
+        });
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set the current year in the footer dynamically
+            document.getElementById('current-year').textContent = new Date().getFullYear(); 
+            
+            renderMenu();
+            updateCart();
+        });
+
+    </script>
+</body>
+</html>
