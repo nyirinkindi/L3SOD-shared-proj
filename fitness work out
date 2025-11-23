@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Fitness Planner</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        input, select, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            background: #007bff;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .day-block {
+            background: #fafafa;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #007bff;
+            border-radius: 5px;
+        }
+
+        .exercise-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+
+        .delete-btn {
+            background: red;
+            color: white;
+            padding: 3px 7px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏋️ Workout Fitness Planner</h1>
+
+        <div class="form">
+            <select id="day">
+                <option value="">Select Day</option>
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
+                <option>Saturday</option>
+                <option>Sunday</option>
+            </select>
+
+            <input type="text" id="exercise" placeholder="Enter exercise (e.g., Push-ups - 3x15)">
+            <button onclick="addWorkout()">Add Workout</button>
+        </div>
+
+        <h2>Weekly Plan</h2>
+        <div id="planner"></div>
+    </div>
+
+    <script>
+        let workouts = JSON.parse(localStorage.getItem("workouts")) || {
+            Monday: [],
+            Tuesday: [],
+            Wednesday: [],
+            Thursday: [],
+            Friday: [],
+            Saturday: [],
+            Sunday: []
+        };
+
+        function saveData() {
+            localStorage.setItem("workouts", JSON.stringify(workouts));
+        }
+
+        function addWorkout() {
+            const day = document.getElementById("day").value;
+            const exercise = document.getElementById("exercise").value.trim();
+
+            if (!day || !exercise) {
+                alert("Please select a day and enter an exercise.");
+                return;
+            }
+
+            workouts[day].push(exercise);
+            saveData();
+            document.getElementById("exercise").value = "";
+            renderPlanner();
+        }
+
+        function deleteWorkout(day, index) {
+            workouts[day].splice(index, 1);
+            saveData();
+            renderPlanner();
+        }
+
+        function renderPlanner() {
+            const planner = document.getElementById("planner");
+            planner.innerHTML = "";
+
+            for (let day in workouts) {
+                let dayBlock = document.createElement("div");
+                dayBlock.className = "day-block";
+
+                let title = `<h3>${day}</h3>`;
+                let exercises = workouts[day]
+                    .map((ex, i) =>
+                        `<div class="exercise-item">
+                            <span>${ex}</span>
+                            <button class="delete-btn" onclick="deleteWorkout('${day}', ${i})">X</button>
+                        </div>`
+                    )
+                    .join("");
+
+                if (exercises === "") {
+                    exercises = "<p>No workouts added yet.</p>";
+                }
+
+                dayBlock.innerHTML = title + exercises;
+                planner.appendChild(dayBlock);
+            }
+        }
+
+        renderPlanner();
+    </script>
+</body>
+</html>
