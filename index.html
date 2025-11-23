@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art Club</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff7ed;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #ffd1c1;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .page {
+      display: none;
+      width: 85%;
+      max-width: 600px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 5px solid #ff8c78;
+    }
+
+    button {
+      background: #ff8c78;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background: #ff6b5c;
+    }
+
+    .backBtn {
+      background: gray;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+  </style>
+
+</head>
+<body>
+
+<header>
+  <h1> Glory Academy's 
+    <br>
+    🎨 Art Club</h1>
+</header>
+
+<div id="homePage" class="page" style="display: block;">
+  <h2>About the Art Club</h2>
+  <p>The Art Club encourages creativity through painting, drawing, and design.</p>
+
+  <h3>📅 When Do We Meet?</h3>
+  <p>Every <strong>Wednesday after lunch</strong></p>
+
+  <h3>🎯 What We Do</h3>
+  <ul>
+    <li>Painting</li>
+    <li>Sketching</li>
+    <li>Color mixing</li>
+    <li>Group art projects</li>
+  </ul>
+
+  <h3>✨ What This Club Helps With</h3>
+  <ul>
+    <li>Creativity</li>
+    <li>Art skills</li>
+    <li>Confidence</li>
+    <li>Self-expression</li>
+  </ul>
+
+  <button onclick="showJoin()">Join the Club</button>
+</div>
+
+
+<div id="joinPage" class="page">
+  <h2>Join the Art Club</h2>
+
+  <label>Your Name:</label>
+  <input type="text" id="name">
+
+  <label>Your Grade:</label>
+  <input type="text" id="grade">
+
+  <button onclick="submitForm()">Submit</button>
+  <button class="backBtn" onclick="goHome()">Back</button>
+</div>
+
+<script>
+  function showJoin() {
+    document.getElementById("homePage").style.display = "none";
+    document.getElementById("joinPage").style.display = "block";
+  }
+
+  function goHome() {
+    document.getElementById("joinPage").style.display = "none";
+    document.getElementById("homePage").style.display = "block";
+  }
+
+  function submitForm() {
+    let name = document.getElementById("name").value;
+    let grade = document.getElementById("grade").value;
+
+    if (name === "" || grade === "") {
+      alert("Please enter both your name and grade.");
+      return;
+    }
+
+    alert("Thank you " + name + "! You joined the Art Club.");
+    goHome();
+  }
+</script>
+
+</body>
+</html>
