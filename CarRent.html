@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CarRent - Full Website</title>
+
+  <style>
+    :root{
+      --bg:#f3f3f3; --card:#fff; --text:#111; --muted:#666; --accent:#111;
+    }
+    [data-theme="dark"]{
+      --bg:#0f1720; --card:#0b1220; --text:#e6eef8; --muted:#9fb0c8; --accent:#f3f3f3;
+    }
+
+    *{box-sizing:border-box;font-family:Inter,Arial,system-ui; margin:0;padding:0}
+    html,body{height:100%;background:var(--bg);color:var(--text);scroll-behavior:smooth}
+    nav{position:sticky;top:0;background:var(--card);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.08);z-index:999}
+    nav h1{font-size:18px}
+    nav .links{display:flex;gap:14px;align-items:center}
+    nav a, nav button.linkbtn{color:var(--text);text-decoration:none;font-size:14px;background:transparent;border:none;cursor:pointer}
+    nav .controls{display:flex;gap:8px;align-items:center}
+
+    main{padding:22px;max-width:1100px;margin:18px auto;}
+
+    /* search */
+    .search-box{margin:18px 0;text-align:center}
+    .search-box input{width:90%;max-width:720px;padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,.12);font-size:15px}
+
+    /* grid */
+    .cars{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+    .car-card{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(2,6,23,.06);transition:transform .22s ease,box-shadow .22s ease;cursor:pointer;display:flex;flex-direction:column}
+    .car-card:hover{transform:translateY(-6px);box-shadow:0 18px 36px rgba(2,6,23,.12)}
+    .car-card img{width:100%;height:160px;object-fit:cover;border-radius:8px}
+    .car-meta{padding:10px 4px;flex:1;display:flex;flex-direction:column;gap:8px}
+    .car-meta h3{font-size:16px;margin-bottom:2px}
+    .car-meta p{color:var(--muted);font-size:14px;margin:0}
+    .car-actions{display:flex;gap:8px;align-items:center;justify-content:space-between}
+
+    /* details area */
+    .detail-panel{display:none;background:var(--card);padding:18px;border-radius:12px;max-width:900px;margin:18px auto;box-shadow:0 10px 30px rgba(0,0,0,.08);transition:opacity .28s ease}
+    .detail-grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:880px){.detail-grid{grid-template-columns:1fr 340px}}
+
+    /* booking form */
+    .booking{background:var(--card);padding:14px;border-radius:10px;box-shadow:0 8px 28px rgba(2,6,23,.06)}
+    .field{margin-top:10px}
+    label{font-size:13px;color:var(--muted)}
+    input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,.08);margin-top:6px;font-size:14px;background:transparent;color:var(--text)}
+    .btn{display:inline-block;padding:10px 14px;border-radius:8px;background:var(--accent);color:var(--card);border:none;cursor:pointer}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,.45);display:none;align-items:center;justify-content:center;z-index:9999}
+    .modal{background:var(--card);padding:18px;border-radius:10px;min-width:280px;max-width:420px;box-shadow:0 20px 60px rgba(2,6,23,.4)}
+    .row{display:flex;gap:8px}
+
+    /* toast/confirm */
+    .toast{position:fixed;right:18px;bottom:18px;background:#0b7b3b;color:#fff;padding:12px 14px;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.2);display:none;z-index:10000}
+
+    /* admin area (hidden by default except after login) */
+    .admin-panel{display:none;padding:18px;background:var(--card);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.08);margin-top:12px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px;border-bottom:1px solid rgba(0,0,0,.06);text-align:left;font-size:13px}
+
+    /* small helpers */
+    .right{margin-left:auto}
+    .hidden{display:none}
+    .center{text-align:center}
+
+    /* animations */
+    .fade-in{animation:fadeIn .4s ease both}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  </style>
+</head>
+<body data-theme="light">
+
+<nav>
+  <h1>CarRent</h1>
+
+  <div class="links">
+    <button class="linkbtn" id="openLoginBtn">Admin Login</button>
+  </div>
+  <div class="controls">
+    <button id="themeToggle" title="Toggle dark mode">🌙</button>
+  </div>
+</nav>
+
+<main>
+  <!-- CARS -->
+    <h2>Available Cars</h2>
+    <div class="search-box">
+      <input id="search" placeholder="Search cars (e.g. Porsche, Prado, Dodge)"/>
+    </div>
+
+    <div class="cars" id="carsGrid">
+      <!-- card template will be inserted by JS -->
+    </div>
+  </section>
+
+  <!-- DETAIL PANEL -->
+
+  <!-- BOOKING SECTION -->
+  <section id="booking" style="margin-top:18px">
+    <h2>Book a Car</h2>
+    <div class="booking" id="bookingCard">
+      <div class="field">
+        <label>Your name</label>
+      </div>
+      <div class="field">
+        <label>Select car</label>
+        <select id="bk_car"></select>
+      </div>
+      <div class="field">
+        <label>Pick-up date</label>
+        <input id="bk_pick" type="date"/>
+      </div>
+      <div class="field">
+        <label>Return date</label>
+        <input id="bk_return" type="date"/>
+      </div>
+      <div class="field row">
+        <button class="btn" id="submitBooking">Submit Booking</button>
+        <div class="muted right" id="pricePreview"></div>
+      </div>
+      <div class="muted" style="margin-top:8px">Bookings saved to server database (PHP + MySQL).</div>
+    </div>
+  </section>
+
+  <!-- ADMIN AREA -->
+  <section id="adminArea" style="margin-top:18px">
+    <h2>Admin Panel</h2>
+    <div class="admin-panel" id="adminPanel">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+        <div class="muted">Logged in as <b id="adminName">admin</b></div>
+        <button class="btn right" id="adminLogout">Logout</button>
+      </div>
+
+      <h3>Bookings</h3>
+      <div id="bookingsTableWrap">
+          <thead><tr><th>#</th><th>Name</th><th>Car</th><th>From</th><th>To</th><th>Price/day</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- LOGIN MODAL -->
+<div class="modal-backdrop" id="loginModal">
+  <div class="modal" role="dialog" aria-modal="true">
+    <h3 class="center">Admin Login</h3>
+    <div class="field">
+      <label>Username</label>
+      <input id="login_user" />
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input id="login_pass" type="password" />
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn" id="doLogin">Login</button>
+      <button id="loginClose" class="btn" style="background:#888">Cancel</button>
+    </div>
+    <div class="muted" style="margin-top:8px">Use your admin credentials to access dashboard.</div>
+  </div>
+</div>
+
+<!-- CONFIRM TOAST -->
+<div class="toast" id="toast">Booking confirmed</div>
+
+<script>
+/* ---------- Data: car list ---------- */
+const cars = [
+  { id:'prado', title:'Toyota Prado', price:120, img:'prado.jpg', desc:'Strong SUV for off-road and long trips.' },
+  { id:'range', title:'Range Rover Sport', price:200, img:'range rover.jpg', desc:'Luxury + performance SUV.' },
+  { id:'benz', title:'Mercedes Benz C-Class', price:150, img:'benz.jpg', desc:'Comfortable premium sedan.' },
+  { id:'dodge', title:'Dodge Challenger SRT Hellcat', price:250, img:'dodge.jpg', desc:'Supercharged American muscle car.' },
+  { id:'corvette', title:'Chevrolet Corvette C8', price:300, img:'corvette.jpg', desc:'Mid-engine supercar experience.' },
+  { id:'genesis', title:'2025 Genesis G70', price:180, img:'genesis.jpg', desc:'Luxury & technology sedan.' },
+  { id:'m4', title:'BMW M4 Competition', price:260, img:'bmw m4.jpg', desc:'High-performance sports coupe.' },
+  { id:'porsche', title:'Porsche 911 Turbo S', price:350, img:'porsche 911.jpg', desc:'Extreme performance Porsche.' },
+  { id:'rs7', title:'Audi RS7 Sportback', price:280, img:'audi rs7.jpg', desc:'Luxury performance 4-door coupe.' }
+];
+
+/* ---------- Render cards and booking car select ---------- */
+const carsGrid = document.getElementById('carsGrid');
+const bkCar = document.getElementById('bk_car');
+
+function renderCars(list){
+  carsGrid.innerHTML = '';
+  bkCar.innerHTML = '';
+  list.forEach(c => {
+    // card
+    const card = document.createElement('div');
+    card.className = 'car-card fade-in';
+    card.onclick = ()=> showDetail(c.id);
+    card.innerHTML = `
+      <img src="${c.img}" alt="${c.title}" onerror="this.src='placeholder.png'"/>
+      <div class="car-meta">
+        <h3>${c.title}</h3>
+        <p class="muted">$${c.price}/day</p>
+        <div class="car-actions">
+          <div class="muted">${c.desc}</div>
+          <button class="btn">View</button>
+        </div>
+      </div>`;
+    carsGrid.appendChild(card);
+
+    // select option
+    const opt = document.createElement('option');
+    opt.value = c.id;
+    opt.innerText = `${c.title} — $${c.price}/day`;
+    bkCar.appendChild(opt);
+  });
+}
+renderCars(cars);
+
+/* ---------- Search ---------- */
+document.getElementById('search').addEventListener('input', function(){
+  const q = this.value.toLowerCase().trim();
+  const filtered = cars.filter(c => c.title.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q));
+  renderCars(filtered);
+});
+
+/* ---------- Detail panel ---------- */
+const detailPanel = document.getElementById('detailPanel');
+function showDetail(id){
+  const c = cars.find(x=>x.id===id);
+  if(!c) return;
+  detailPanel.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+      <h2>${c.title}</h2>
+      <div class="muted">$${c.price}/day</div>
+    </div>
+    <div class="detail-grid" style="margin-top:12px">
+      <div>
+        <img src="${c.img}" alt="${c.title}" onerror="this.src='placeholder.png'"/>
+        <p style="margin-top:8px">${c.desc}</p>
+        <div style="margin-top:10px"><button class="btn" onclick="document.getElementById('bk_car').value='${c.id}'; window.location='#booking';">Book this car</button></div>
+      </div>
+      <div>
+        <div class="booking">
+          <div class="field"><label>Price per day</label><div class="muted">$${c.price}</div></div>
+          <div class="field"><label>Quick Details</label><div class="muted">Engine, seats and extras listed here.</div></div>
+          <div style="margin-top:10px">
+            <button class="btn" onclick="document.getElementById('bk_car').value='${c.id}'; window.location='#booking';">Book Now</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  detailPanel.style.display='block';
+  detailPanel.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ---------- Booking handler (calls booking_process.php) ---------- */
+document.getElementById('submitBooking').addEventListener('click', async function(){
+  const name = document.getElementById('bk_name').value.trim();
+  const carId = document.getElementById('bk_car').value;
+  const pick = document.getElementById('bk_pick').value;
+  const ret = document.getElementById('bk_return').value;
+  if(!name || !carId || !pick || !ret){ alert('Please fill all booking fields'); return; }
+  const car = cars.find(c=>c.id===carId);
+  // compute days (simple)
+  const days = (new Date(ret) - new Date(pick)) / (1000*60*60*24);
+  const total = (isNaN(days) || days<1) ? car.price : Math.max(1, Math.ceil(days)) * car.price;
+
+  // confirmation popup
+  const ok = confirm(`Confirm booking:\n${car.title}\nFrom: ${pick}\nTo: ${ret}\nDays: ${isNaN(days) ? '1' : Math.max(1,Math.ceil(days))}\nTotal: $${total}`);
+  if(!ok) return;
+
+  // send to server
+  try{
+    const body = new FormData();
+    body.append('name', name);
+    body.append('car', carId);
+    body.append('pick', pick);
+    body.append('return', ret);
+    body.append('total', total);
+    const resp = await fetch('booking_process.php', {method:'POST',body});
+    const data = await resp.json();
+    if(data.success){
+      showToast('Booking successful');
+      // clear
+      document.getElementById('bk_name').value='';
+      document.getElementById('bk_pick').value='';
+      document.getElementById('bk_return').value='';
+    } else {
+      alert('Booking failed: ' + (data.error || 'Unknown'));
+    }
+  }catch(e){
+    alert('Network error: ' + e.message);
+        <table id="bookingsTable">
+  }
+});
+
+/* ---------- Toast ---------- */
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.innerText = msg; t.style.display='block';
+  setTimeout(()=>{ t.style.display='none'; }, 3500);
+}
+
+/* ---------- Login modal ---------- */
+const loginModal = document.getElementById('loginModal');
+document.getElementById('openLoginBtn').addEventListener('click', ()=> loginModal.style.display='flex');
+document.getElementById('loginClose').addEventListener('click', ()=> loginModal.style.display='none');
+
+document.getElementById('doLogin').addEventListener('click', async ()=>{
+  const user = document.getElementById('login_user').value.trim();
+  const pass = document.getElementById('login_pass').value;
+  if(!user||!pass){ alert('Enter credentials'); return; }
+  try{
+    const body = new FormData(); body.append('user',user); body.append('pass',pass);
+        <input id="bk_name" placeholder="Full name"/>
+    const res = await fetch('login.php',{method:'POST',body});
+    const js = await res.json();
+    if(js.success){
+      loginModal.style.display='none';
+      loadAdminPanel(js.name||user);
+    } else alert('Login failed');
+  }catch(e){ alert('Network error: '+e.message) }
+});
+
+/* ---------- Admin panel ---------- */
+async function loadAdminPanel(name){
+  document.getElementById('adminName').innerText = name;
+  document.getElementById('adminPanel').style.display='block';
+  document.getElementById('adminArea').scrollIntoView({behavior:'smooth'});
+  // fetch bookings
+  <section id="detailPanel" class="detail-panel fade-in" aria-hidden="true"></section>
+  <section id="carsSection">
+
+  try{
+    const res = await fetch('admin_api.php');
+    const js = await res.json();
+    if(js.success){
+      const tbody = document.querySelector('#bookingsTable tbody');
+      tbody.innerHTML='';
+      js.data.forEach((r,i)=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${i+1}</td><td>${r.name}</td><td>${r.car}</td><td>${r.pick_date}</td><td>${r.return_date}</td><td>$${r.total}</td>`;
+        tbody.appendChild(tr);
+    <a href="#cars">Cars</a>
+      });
+    } else alert('Failed loading admin data');
+  }catch(e){ alert('Network error: '+e.message) }
+}
+
+/* ---------- logout ---------- */
+document.getElementById('adminLogout').addEventListener('click', async ()=>{
+  await fetch('logout.php'); document.getElementById('adminPanel').style.display='none'; alert('Logged out');
+});
+
+/* ---------- Dark mode toggle (persist in localStorage) ---------- */
+const themeToggle = document.getElementById('themeToggle');
+const root = document.documentElement;
+function applyTheme(t){
+  document.body.setAttribute('data-theme', t);
+  themeToggle.innerText = t==='dark' ? '☀️' : '🌙';
+  localStorage.setItem('theme', t);
+}
+themeToggle.addEventListener('click', ()=> applyTheme(document.body.getAttribute('data-theme')==='light' ? 'dark' : 'light'));
+applyTheme(localStorage.getItem('theme') || 'light');
+
+/* ---------- small: show price preview ---------- */
+document.getElementById('bk_car').addEventListener('change', function(){
+  const c = cars.find(x=>x.id===this.value);
+  document.getElementById('pricePreview').innerText = c ? '$'+c.price+'/day' : '';
+});
+document.getElementById('bk_car').dispatchEvent(new Event('change'));
+</script>
+
+</body>
+</html>
+
