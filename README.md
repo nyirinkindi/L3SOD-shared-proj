@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Club Website</title>
+
+    <!-- INTERNAL CSS -->
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+
+        header {
+            background: #003366;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background: #0055a5;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .hero {
+            padding: 60px;
+            background: #ffffff;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 40px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+        }
+
+        footer {
+            background: #003366;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <h1>GLORY ACADEMY</h1>
+        <p>Welcome to our official club website!</p>
+    </header>
+
+    <!-- NAVIGATION MENU -->
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Events</a>
+        <a href="#">Members</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1>Welcome to Our Club</h1>
+        <p>We learn, create, and grow together!</p>
+        <button onclick="showMessage()">Click Me</button>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <h2>About Our Club</h2>
+        <p>
+            This is out school club of GLORY ACADEMY  and our goal is achieve success
+        </p>
+    </div>
+
+    <footer>
+        © 2025 School Club — All Rights Reserved
+    </footer>
+
+    <script>
+        function showMessage() {
+            alert("Welcome to the Club Website!");
+        }
+    </script>
+
+</body>
+</html>
