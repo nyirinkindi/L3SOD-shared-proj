@@ -1,0 +1,20 @@
+# Music Player UI
+
+## Project Overview
+Music Player UI is a user interface design for a music player application. It allows users to browse songs, play/pause tracks, and navigate through playlists with a clean and modern interface.
+
+## Purpose
+The purpose of this project is to create a visually appealing and user-friendly design for a music player. It focuses on improving user experience and making music navigation simple and enjoyable.
+
+## Key Features
+- Play, pause, and skip tracks
+- Browse and search through playlists
+- Display song title, artist, and album art
+- Responsive design for desktop and mobile devices
+- Interactive buttons and sleek UI elements
+
+## How to Use
+1. Open the project in a browser or design tool
+2. Click on the play button to start a song
+3. Use navigation buttons to skip, go back, or browse playlists
+4. Enjoy a smooth and visually appealing music experience
