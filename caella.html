@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEATHER OF TODAY</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#78a7ff, #4c6cd1);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .weather-box {
+            background: white;
+            width: 300px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .weather-box img {
+            width: 90px;
+        }
+
+        .temperature {
+            font-size: 45px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .description {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .other-info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .other-info div {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="weather-box">
+        <h2>Kigali Weather</h2>
+
+        
+        <img src="https://cdn-icons-png.flaticon.com/512/4814/4814268.png" alt="Weather Icon">
+
+        <div class="temperature">26°C</div>
+        <div class="description">Partly Cloudy</div>
+
+        <div class="other-info">
+            <div>🌬️ Wind: 5 km/h</div>
+            <div>💧 Humidity: 60%</div>
+            <div>🌅 Sunrise: 06:05 AM</div>
+        </div>
+    </div>
+
+</body>
+</html>
