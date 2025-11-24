@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GoPlan — Travel & Trip Planner</title>
+  <style>
+    :root{--accent:#2b8cff;--muted:#6b7280;--bg:#0f1724;--card:#0b1220;--glass: rgba(255,255,255,0.04)}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;color:#e6eef8;background:linear-gradient(180deg,#071029 0%, #071938 100%)}
+    a{color:var(--accent);text-decoration:none}
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#6ad1ff);display:flex;align-items:center;justify-content:center;font-weight:700;color:#032034}
+    .title{font-size:1.15rem;font-weight:700}
+    .sub{color:var(--muted);font-size:0.85rem}
+
+    main{max-width:1100px;margin:24px auto;padding:20px}
+    .grid{display:grid;grid-template-columns:1fr 380px;gap:20px}
+
+    /* left column */
+    .hero{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:12px;backdrop-filter: blur(6px);}
+    .hero h1{margin:0;font-size:1.6rem}
+    .hero p{color:var(--muted);margin-top:6px}
+
+    .destinations{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+    .card{background:var(--card);padding:12px;border-radius:10px}
+    .card img{width:100%;height:110px;object-fit:cover;border-radius:8px}
+    .card h3{margin:10px 0 4px;font-size:1rem}
+    .meta{font-size:0.85rem;color:var(--muted)}
+
+    /* search / planner area */
+    .searchbar{display:flex;gap:8px;margin-top:14px}
+    .searchbar input, .searchbar button{padding:10px 12px;border-radius:10px;border:0;outline:none}
+    .searchbar input{flex:1;background:var(--glass);color:#e6eef8}
+    .searchbar button{background:var(--accent);color:#02203a;font-weight:700}
+
+    .itinerary{margin-top:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:14px;border-radius:12px}
+    .itinerary h2{margin:0 0 8px}
+    .form-row{display:flex;gap:8px;margin-bottom:8px}
+    input[type=date], input[type=time], input[type=text], input[type=number], select{padding:8px;border-radius:8px;border:0;background:#06121a;color:#e6eef8}
+    .btn{padding:8px 10px;border-radius:8px;border:0;background:var(--accent);color:#032034;font-weight:700;cursor:pointer}
+
+    .schedule-list{margin-top:10px}
+    .schedule-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;background:rgba(255,255,255,0.02);margin-bottom:8px}
+    .small{font-size:0.9rem;color:var(--muted)}
+
+    /* right column */
+    .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px}
+    .panel h3{margin:0 0 10px}
+    .checklist{display:flex;flex-direction:column;gap:8px}
+    .checklist input[type=checkbox]{margin-right:8px}
+
+    .budget{display:flex;gap:8px;align-items:center}
+    .budget input{width:100%}
+
+    .countdown{font-weight:700;font-size:1.1rem}
+
+    footer{max-width:1100px;margin:18px auto;color:var(--muted);padding:0 20px}
+
+    /* responsive */
+    @media (max-width:900px){.grid{grid-template-columns:1fr}.destinations{grid-template-columns:1fr}.panel{margin-top:14px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">GP</div>
+      <div>
+        <div class="title">GoPlan</div>
+        <div class="sub">Plan. Book. Explore.</div>
+      </div>
+    </div>
+    <nav>
+      <a href="#itinerary">Itinerary</a> · <a href="#planner">Planner</a> · <a href="#tools">Tools</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="grid">
+      <div>
+        <section class="hero">
+          <h1>Discover your next destination</h1>
+          <p>Browse featured places, build your itinerary, and save packing lists & budgets — all in one single page.</p>
+
+          <div class="searchbar" role="search">
+            <input id="searchInput" placeholder="Search destinations (e.g. Paris, Kigali)" />
+            <button id="searchBtn" class="btn">Search</button>
+          </div>
+
+          <div class="destinations" id="destGrid">
+            <!-- static sample destinations (replace images if you want) -->
+            <div class="card">
+              <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="beach"/>
+              <h3>Sunset Beach</h3>
+              <div class="meta">Relaxing beaches • Ideal for families</div>
+            </div>
+            <div class="card">
+              <img src="https://images.unsplash.com/photo-1467269204594-9661b134dd2b?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="mountain"/>
+              <h3>Highland Peaks</h3>
+              <div class="meta">Hiking & views • Adventure</div>
+            </div>
+            <div class="card">
+              <img src="https://images.unsplash.com/photo-1505765051394-5b8a4b3a5d57?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="city"/>
+              <h3>Old City</h3>
+              <div class="meta">Culture & food • Walking tours</div>
+            </div>
+            <div class="card">
+              <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="safari"/>
+              <h3>Wild Savanna</h3>
+              <div class="meta">Wildlife safaris • Guided tours</div>
+            </div>
+          </div>
+
+          <section class="itinerary" id="itinerary">
+            <h2>Create a trip plan</h2>
+            <div class="form-row">
+              <input id="tripName" type="text" placeholder="Trip title e.g. 'Kigali Weekend'" />
+              <input id="startDate" type="date" />
+              <input id="endDate" type="date" />
+            </div>
+            <div class="form-row">
+              <input id="itemDate" type="date" />
+              <input id="itemTime" type="time" />
+              <input id="itemTitle" type="text" placeholder="Activity (e.g. Museum visit)" />
+              <button id="addItem" class="btn">Add</button>
+            </div>
+
+            <div id="schedule" class="schedule-list" aria-live="polite"></div>
+
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button id="saveTrip" class="btn">Save Trip</button>
+              <button id="exportTrip" class="btn" style="background:#0acf83">Export (JSON)</button>
+              <button id="clearTrips" class="btn" style="background:#ff7a7a">Clear All</button>
+            </div>
+          </section>
+
+        </section>
+
+        <section style="margin-top:16px;background:transparent;color:var(--muted)">
+          <h3 id="tools">Planner tools</h3>
+          <p class="small">Quick tools to help while planning: countdown, budget, packing checklist and notes.</p>
+        </section>
+
+      </div>
+
+      <aside class="panel" id="planner">
+        <h3>Countdown to trip</h3>
+        <div class="countdown" id="countdown">—</div>
+
+        <h3 style="margin-top:12px">Budget planner</h3>
+        <div class="budget">
+          <input id="budgetTotal" type="number" placeholder="Total budget" />
+          <button id="budgetCalc" class="btn">Calc/day</button>
+        </div>
+        <div class="small" id="budgetRes">—</div>
+
+        <h3 style="margin-top:12px">Packing checklist</h3>
+        <div class="checklist" id="packingList">
+          <label><input type="checkbox" data-name="Passport"/> Passport</label>
+          <label><input type="checkbox" data-name="Phone Charger"/> Phone Charger</label>
+          <label><input type="checkbox" data-name="Toiletries"/> Toiletries</label>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <input id="newPack" placeholder="Add item" />
+            <button id="addPack" class="btn">Add</button>
+          </div>
+        </div>
+
+        <h3 style="margin-top:12px">Notes</h3>
+        <textarea id="notes" rows="6" style="width:100%;padding:8px;border-radius:8px;background:#06121a;color:#e6eef8;border:0"></textarea>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button id="saveNotes" class="btn">Save</button>
+          <button id="clearNotes" class="btn" style="background:#ff7a7a">Clear</button>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <small>Built with ♥ — single-file demo. Open this HTML file in your browser. Data is saved locally in your browser's storage.</small>
+  </footer>
+
+<script>
+// Simple trip manager using localStorage
+const scheduleEl = document.getElementById('schedule');
+const tripsKey = 'goplan_trips_v1';
+let trips = JSON.parse(localStorage.getItem(tripsKey) || '[]');
+
+function renderTrips(){
+  scheduleEl.innerHTML = '';
+  if(!trips.length) scheduleEl.innerHTML = '<div class="small">No items yet — add events above.</div>';
+  trips.forEach((t, idx)=>{
+    const el = document.createElement('div'); el.className='schedule-item';
+    const left = document.createElement('div');
+    left.innerHTML = `<div style="font-weight:700">${escapeHtml(t.title)}</div><div class="small">${t.date} ${t.time || ''}</div>`;
+    const right = document.createElement('div');
+    right.innerHTML = `<button class="btn" data-idx="${idx}">Delete</button>`;
+    el.appendChild(left); el.appendChild(right);
+    scheduleEl.appendChild(el);
+  });
+  // attach delete handlers
+  scheduleEl.querySelectorAll('button[data-idx]').forEach(b=>b.addEventListener('click', e=>{
+    const i = Number(e.currentTarget.dataset.idx); trips.splice(i,1); saveTrips(); renderTrips(); updateCountdown();
+  }))
+}
+
+function saveTrips(){ localStorage.setItem(tripsKey, JSON.stringify(trips)); }
+
+// add item
+document.getElementById('addItem').addEventListener('click', ()=>{
+  const title = document.getElementById('itemTitle').value.trim();
+  const date = document.getElementById('itemDate').value;
+  const time = document.getElementById('itemTime').value;
+  if(!title || !date){ alert('Enter activity title and date'); return; }
+  trips.push({title, date, time}); saveTrips(); renderTrips();
+  document.getElementById('itemTitle').value=''; document.getElementById('itemTime').value=''; document.getElementById('itemDate').value='';
+});
+
+// save trip metadata
+document.getElementById('saveTrip').addEventListener('click', ()=>{
+  const name = document.getElementById('tripName').value.trim();
+  const start = document.getElementById('startDate').value;
+  const end = document.getElementById('endDate').value;
+  if(!name || !start || !end){ alert('Give trip a name, start and end date'); return; }
+  const packed = {name, start, end, items: trips};
+  localStorage.setItem('goplan_saved_trip_'+name, JSON.stringify(packed));
+  alert('Trip saved locally as: ' + name);
+});
+
+// export JSON
+document.getElementById('exportTrip').addEventListener('click', ()=>{
+  const name = document.getElementById('tripName').value.trim() || 'my-trip';
+  const data = {name, start:document.getElementById('startDate').value, end:document.getElementById('endDate').value, items:trips};
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download = name + '.json'; a.click();
+  URL.revokeObjectURL(url);
+});
+
+// clear
+document.getElementById('clearTrips').addEventListener('click', ()=>{ if(confirm('Clear all scheduled items?')){ trips = []; saveTrips(); renderTrips(); } });
+
+// search demo (client-only filter)
+document.getElementById('searchBtn').addEventListener('click', ()=>{
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const cards = Array.from(document.querySelectorAll('.card'));
+  cards.forEach(c=>{ c.style.display = c.innerText.toLowerCase().includes(q) ? 'block' : 'none' });
+});
+
+// packing list
+const packingList = document.getElementById('packingList');
+packingList.addEventListener('change', ()=>{
+  savePacking();});
+function savePacking(){
+  const items = Array.from(packingList.querySelectorAll('label')).map(l=>{
+    const cb = l.querySelector('input[type=checkbox]'); return {name:cb.dataset.name || l.textContent.trim(), checked:cb.checked};
+  });
+  localStorage.setItem('goplan_packing', JSON.stringify(items));
+}
+document.getElementById('addPack').addEventListener('click', ()=>{
+  const v = document.getElementById('newPack').value.trim(); if(!v) return; const lab = document.createElement('label');
+  const cb = document.createElement('input'); cb.type='checkbox'; cb.dataset.name=v; lab.appendChild(cb); lab.appendChild(document.createTextNode(' '+v)); packingList.appendChild(lab); document.getElementById('newPack').value=''; savePacking();
+});
+
+// notes
+document.getElementById('saveNotes').addEventListener('click', ()=>{ localStorage.setItem('goplan_notes', document.getElementById('notes').value); alert('Notes saved locally'); });
+document.getElementById('clearNotes').addEventListener('click', ()=>{ if(confirm('Clear notes?')){ document.getElementById('notes').value=''; localStorage.removeItem('goplan_notes'); } });
+
+// budget calc
+document.getElementById('budgetCalc').addEventListener('click', ()=>{
+  const total = Number(document.getElementById('budgetTotal').value || 0);
+  const start = document.getElementById('startDate').value; const end = document.getElementById('endDate').value;
+  if(!start || !end){ document.getElementById('budgetRes').innerText='Set trip start and end dates first.'; return; }
+  const days = Math.max(1, (new Date(end) - new Date(start))/(1000*60*60*24) + 1);
+  const perDay = (total/days).toFixed(2);
+  document.getElementById('budgetRes').innerText = `Trip days: ${days} — ${perDay} per day`;
+});
+
+// countdown
+function updateCountdown(){
+  const start = document.getElementById('startDate').value; if(!start){ document.getElementById('countdown').innerText='Set a start date'; return; }
+  const d = new Date(start); const now = new Date();
+  const diff = d - now; if(diff<=0) { document.getElementById('countdown').innerText='Trip started or date passed'; return; }
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+  document.getElementById('countdown').innerText = `${days}d ${hours}h until start`;
+}
+setInterval(updateCountdown, 1000*60);
+
+// load saved state
+function loadState(){
+  const packed = JSON.parse(localStorage.getItem(tripsKey) || '[]'); trips = packed; renderTrips();
+  const pack = JSON.parse(localStorage.getItem('goplan_packing') || 'null');
+  if(pack){
+    // clear auto ones except existing labels then add
+    const existing = Array.from(packingList.querySelectorAll('label')).slice(0,3);
+    packingList.innerHTML=''; existing.forEach(l=>packingList.appendChild(l));
+    pack.forEach(it=>{
+      const lab = document.createElement('label'); const cb = document.createElement('input'); cb.type='checkbox'; cb.dataset.name=it.name; cb.checked=it.checked; lab.appendChild(cb); lab.appendChild(document.createTextNode(' '+it.name)); packingList.appendChild(lab);
+    });
+  }
+  const notes = localStorage.getItem('goplan_notes'); if(notes) document.getElementById('notes').value = notes;
+}
+
+function escapeHtml(s){ return s.replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])) }
+
+loadState(); updateCountdown();
+
+// small accessibility: press Enter to add item
+['itemTitle','itemDate'].forEach(id=>document.getElementById(id).addEventListener('keydown', e=>{ if(e.key==='Enter'){ document.getElementById('addItem').click(); } }));
+
+</script>
+</body>
+</html>
