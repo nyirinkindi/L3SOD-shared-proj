@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Beautiful Online Quiz</title>
+<style>
+    body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #c7d2fe, #f5d0fe);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    #quiz-container {
+        background: white;
+        width: 100%;
+        max-width: 600px;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        animation: popIn 0.6s ease;
+    }
+
+    @keyframes popIn {
+        from { transform: scale(0.8); opacity: 0; }
+        to   { transform: scale(1); opacity: 1; }
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        text-align: center;
+        color: #4c1d95;
+        font-weight: 600;
+    }
+
+    .option {
+        background: #f3e8ff;
+        padding: 12px 15px;
+        margin: 10px 0;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .option:hover {
+        background: #e9d5ff;
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    input[type="radio"] {
+        transform: scale(1.3);
+        accent-color: #7c3aed;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background: #7c3aed;
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #5b21b6;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(92,38,196,0.4);
+    }
+
+    #result {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 22px;
+        font-weight: bold;
+        color: #4c1d95;
+    }
+</style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <h2 id="question">Question will appear here</h2>
+    <div id="options"></div>
+    <button onclick="nextQuestion()">Next</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    const questions = [
+        { question: "1. What does HTML stand for?", options: ["Hyper Text Markup Language", "High Text Making Language", "Hyperlinks Text Mode List"], answer: 0 },
+        { question: "2. CSS mainly controls:", options: ["Structure", "Styling", "Database"], answer: 1 },
+        { question: "3. Which language runs in the browser?", options: ["Python", "JavaScript", "C++"], answer: 1 },
+        { question: "4. What does JS stand for?", options: ["JavaSource", "JavaStyle", "JavaScript"], answer: 2 },
+        { question: "5. Which tag creates a paragraph?", options: ["<p>", "<h1>", "<div>"], answer: 1 },
+        { question: "6. CSS is used for…?", options: ["Styling web pages", "Creating servers", "Storing data"], answer: 0 },
+        { question: "7. JavaScript runs in the…?", options: ["Browser", "Database", "OS Kernel"], answer: 0 }
+    ];
+
+    let index = 0;
+    let score = 0;
+
+    function loadQuiz() {
+        document.getElementById("question").innerText = questions[index].question;
+        const optionsDiv = document.getElementById("options");
+        optionsDiv.innerHTML = "";
+
+        questions[index].options.forEach((opt, i) => {
+            optionsDiv.innerHTML += `
+                <label class="option">
+                    <input type="radio" name="option" value="${i}">
+                    ${opt}
+                </label>`;
+        });
+    }
+
+    function nextQuestion() {
+        const selected = document.querySelector('input[name="option"]:checked');
+        if (!selected) {
+            alert("Please choose an answer first, Bestie 💜");
+            return;
+        }
+
+        if (parseInt(selected.value) === questions[index].answer) {
+            score++;
+        }
+
+        index++;
+
+        if (index < questions.length) {
+            loadQuiz();
+        } else {
+            document.getElementById("quiz-container").innerHTML =
+                `<h2>🎉 You finished the quiz!</h2>
+                 <p id="result">You scored ${score} out of ${questions.length} 💜</p>`;
+        }
+    }
+
+    loadQuiz();
+</script>
+
+</body>
+</html>
