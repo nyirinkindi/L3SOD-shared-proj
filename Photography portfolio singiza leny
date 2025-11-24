@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Leny & Christian – Photography Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Leny & Christian</h1>
+        <p>Photography Portfolio</p>
+    </header>
+
+    <section class="gallery">
+        <h2>Portraits</h2>
+        <img src="portrait1.jpg" alt="Portrait">
+    </section>
+
+    <section class="gallery">
+        <h2>Landscapes</h2>
+        <img src="landscape1.jpg" alt="Landscape">
+    </section>
+
+    <section class="gallery">
+        <h2>Street Photography</h2>
+        <img src="street1.jpg" alt="Street">
+    </section>
+
+    <section class="gallery">
+        <h2>Night Photography</h2>
+        <img src="night1.jpg" alt="Night">
+    </section>
+
+    <section class="gallery">
+        <h2>Macro</h2>
+        <img src="macro1.jpg" alt="Macro">
+    </section>
+</body>
+</html>
