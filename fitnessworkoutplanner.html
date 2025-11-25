@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, navy, grey);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Times New Roman', Times, serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .hero {
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #001F3F, #0055FF);
+            color: white;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+        }
+
+        .list {
+            display: flex;
+            gap: 20px;
+            list-style-type: none;
+            align-items: center;
+        }
+
+        .list li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .list li a:hover {
+            color: #FFD700;
+            transform: scale(1.1);
+        }
+
+        .button1 {
+            border: none;
+            border-radius: 25px;
+            padding: 8px 20px;
+            background-color: #FFD700;
+            color: #001F3F;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: auto; /* Pushes button to the far right */
+        }
+
+        .button1:hover {
+            background-color: white;
+            color: #0055FF;
+            transform: scale(1.05);
+        }
+
+        .folm {
+            margin: 30px auto;
+            width: 300px;     
+            padding: 50px;        
+            border: 2px solid black;  
+            background-color: whitesmoke;
+            display: grid;
+            gap: 10px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+
+        .folm input, .folm select, .folm button {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .gender-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .button2 {
+            background-color: blue;
+            color: white;
+            border: none;
+            margin-top: 10px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        footer {
+            margin-top: auto;
+            background-color: #001F3F;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            flex-wrap: wrap;
+        }
+
+        footer a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: bold;
+            margin-right: 20px;
+            display: flex;
+        }
+
+        footer img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="hero">
+            <div class="logo">FITNESS-WORKOUT-PLANNER</div>
+            <ul class="list">
+                <li><a href="#">home</a></li>
+                <li><a href="#">about us</a></li>
+                <li><button class="button1">REGISTER</button></li>
+            </ul>
+        </header>
+
+        <form class="folm">
+            <label>FIRST NAME</label>
+            <input type="text">
+
+            <label>SECOND NAME</label>
+            <input type="text">
+
+            <label>AGE</label>
+            <input type="number">
+
+            <label>GENDER</label>
+            <div class="gender-group">
+                <input type="radio" name="gender">Male
+                <input type="radio" name="gender">Female
+            </div>
+
+            <label>COUNTRY</label>
+            <select>
+                <option>RWANDA</option>
+                <option>KENYA</option>
+                <option>TANZANIA</option>
+                <option>SOUTH SUDAN</option>
+                <option>DRC</option>
+                <option>SOMALIA</option>
+                <option>BURUNDI</option>
+                <option>UGANDA</option>
+                <option>ETHIOPIA</option>
+                <option>ERITHREA</option>
+                <option>MADAGASCAR</option>
+                <option>CAMEROON</option>
+                <option>IVORYCOST</option>
+                <option>GHANA</option>
+                <option>SOUTH AFRICA</option>
+                <option>LESOTHO</option>
+                <option>ESWATINI</option>
+                <option>BOTSWANA</option>
+                <option>MORROCO</option>
+                <option>EGYPT</option>
+                <option>SUDAN</option>
+                <option>CENTRAL AFRICA</option>
+                <option>CHAD</option>
+                <option>COMOROS</option>
+                <option>LIBERIA</option>
+                <option>LIBYA</option>
+                <option>MAURTANIA</option>
+                <option>MAURTIUS</option>
+                <option>SENEGAL</option>
+            </select>
+
+            <label>CREATE PASSWORD</label>
+            <input type="password">
+
+            <button class="button2">CREATE ACCOUNT</button>
+        </form>
+
+        <footer>
+            <div>
+                <a href="#">Home</a>
+                <br>
+                <a href="#">contact us</a>
+                <br>
+                <a href="#">email us</a>
+                <br>
+                <a href="#">about</a>
+                <br>
+                
+            </div>
+            <div>
+                <img src="fitness image.jpg" alt="Person doing sports">
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
