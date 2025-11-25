@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="project.css" />
+  <title>CarRent – Full Website</title>
+  <style>
+    body {
+      background-color: #1b3a52;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+      scroll-behavior: smooth;
+    }
+    nav {
+      background: #f8f8f8;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+    nav h2 {
+      margin: 0;
+      color: #111;
+    }
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #111;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #1b3a52;
+    }
+    .hero {
+      background: url('hero.jpg') center/cover no-repeat;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    }
+    .cars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .car-card {
+      background: #fff;
+      color: #111;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+    .car-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    }
+    .car-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .btn {
+      padding: 10px 20px;
+      background: #111;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 10px;
+    }
+    .btn:hover {
+      background: #444;
+    }
+
+    .car-details {
+      background: #f8f8f8;
+      color: #111;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .car-details img {
+      width: 100%;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    form {
+      background: #f8f8f8;
+      color: #111;
+      padding: 20px;
+      width: 350px;
+      margin: 20px auto;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    input, select {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    /* Modal for car details */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.7);
+    }
+    .modal-content {
+      background: #fff;
+      margin: 5% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      color: #111;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: black;
+    }
+    .car-specs {
+      margin-top: 10px;
+    }
+    .car-specs li {
+      margin-bottom: 5px;
+    }
+
+    @media(max-width: 600px) {
+        .cars {
+            grid-template-columns: 1fr;
+        }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <h2>CarRent</h2>
+  <div>
+    <a href="#home">Home</a>
+    <a href="#cars">Cars</a>
+    <a href="#booking">Book Now</a>
+  </div>
+</nav>
+
+<div class="hero" id="home">
+  Rent Your Dream Car Today
+</div>
+
+<h2 style="padding: 20px; color:white;">Available Cars</h2>
+<div class="cars" id="cars">
+
+  <!-- Car cards with modal details -->
+  <div class="car-card" onclick="showDetails('Toyota Prado','Luxury SUV, comfortable and strong engine','$120/day','prado.jpg',{Engine:'2.8L Diesel', Seats:5, Transmission:'Automatic', Fuel:'Diesel'})">
+    <img src="prado.jpg" />
+    <h3>Toyota Prado</h3>
+    <p>$120/day</p>
+    <button class="btn">View Details</button>
+  </div>
+
+  <div class="car-card" onclick="showDetails('Range Rover Sport','Premium luxury SUV with modern interior','$200/day','range rover.jpg',{Engine:'3.0L Turbo', Seats:5, Transmission:'Automatic', Fuel:'Petrol'})">
+    <img src="range rover.jpg" />
+    <h3>Range Rover Sport</h3>
+    <p>$200/day</p>
+    <button class="btn">View Details</button>
+  </div>
+
+  <div class="car-card" onclick="showDetails('Mercedes Benz C-Class','Elegant executive sedan','$150/day','benz.jpg',{Engine:'2.0L Turbo', Seats:5, Transmission:'Automatic', Fuel:'Petrol'})">
+    <img src="benz.jpg" />
+    <h3>Mercedes Benz C-Class</h3>
+    <p>$150/day</p>
+    <button class="btn">View Details</button>
+  </div>
+
+  <!-- Add other cars similarly -->
+
+</div>
+
+<!-- Modal for car details -->
+<div id="carModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2 id="modalName"></h2>
+    <img id="modalImg" src="" style="width:100%; height:250px; object-fit:cover; border-radius:10px;"/>
+    <p id="modalDesc"></p>
+    <p id="modalPrice" style="font-weight:bold;"></p>
+    <ul class="car-specs" id="modalSpecs"></ul>
+  </div>
+</div>
+
+<h2 id="booking" style="text-align:center; margin:20px; color:white;">Book Your Car</h2>
+<form>
+  <label>Full Name</label>
+  <input type="text" placeholder="Your name" />
+
+  <label>Email</label>
+  <input type="email" placeholder="Your email" />
+
+  <label>Pick-up Date</label>
+  <input type="date" />
+
+  <label>Return Date</label>
+  <input type="date" />
+
+  <label>Choose Car</label>
+  <select>
+    <option>Toyota Prado</option>
+    <option>Range Rover Sport</option>
+    <option>Mercedes Benz C-Class</option>
+    <option>Bugatti Chiron</option>
+    <option>Lamborghini Aventador</option>
+    <option>Ferrari 812 Superfast</option>
+    <option>Rolls-Royce Phantom</option>
+    <option>Mercedes G-Wagon</option>
+    <option>Tesla Model X</option>
+  </select>
+
+  <button class="btn" style="margin-top:20px; width:100%">Confirm Booking</button>
+</form>
+
+<script>
+function showDetails(name, desc, price, img, specs) {
+  document.getElementById('modalName').innerText = name;
+  document.getElementById('modalDesc').innerText = desc;
+  document.getElementById('modalPrice').innerText = price;
+  document.getElementById('modalImg').src = img;
+  
+  // Clear previous specs
+  const specsList = document.getElementById('modalSpecs');
+  specsList.innerHTML = '';
+  for (let key in specs) {
+    let li = document.createElement('li');
+    li.innerText = `${key}: ${specs[key]}`;
+    specsList.appendChild(li);
+  }
+
+  document.getElementById('carModal').style.display = 'block';
+}
+function closeModal() {
+  document.getElementById('carModal').style.display = 'none';
+}
+window.onclick = function(event) {
+  if (event.target == document.getElementById('carModal')) {
+    closeModal();
+  }
+}
+</script>
+
+</body>
+</html>
