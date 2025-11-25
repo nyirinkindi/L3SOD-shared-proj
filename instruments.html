@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Instruments Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4ff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: navy;
+            margin-bottom: 25px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Music Instruments Gallery</h1>
+
+    <div class="gallery">
+        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4" alt="Guitar">
+        <img src="c:\Users\USER1\Downloads\download (3).jpeg" alt="drum">
+        <img src="c:\Users\USER1\Downloads\Grand Piano.jpeg" alt="Piano">
+        <img src="c:\Users\USER1\Downloads\Violín En Un Fondo Negro Foto de Pantalla Imagen para Descarga Gratuita - Pngtree.jpeg" alt="Violin">
+        <img src="c:\Users\USER1\Downloads\Yamaha YTS-280 Student B♭ Tenor Saxophone - Gold Lacquer.jpeg" alt="Saxophone">
+        <img src="c:\Users\USER1\Downloads\Trumpet Photos - Download Free High-Quality Pictures _ Freepik.jpeg" alt="Trumpet">
+    </div>

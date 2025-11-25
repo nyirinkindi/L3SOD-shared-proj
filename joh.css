@@ -1,0 +1,39 @@
+*{
+    margin: 0;
+    padding: 0%;
+}
+body{
+    background-image: url(dollaa.jpeg);
+}
+header{
+    background-color: rgb(202, 192, 192);
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+}
+img{
+    height: 80px;
+    width: 60px;
+}
+ul{
+    display: flex;
+     gap: 50px;
+     list-style-type: none;
+       margin: 20px;`
+}
+a{
+    text-decoration: none;
+    color: white;
+    margin: 20px;
+}
+nav{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+video{
+    height:136px ;
+    width: 242.5px;
+    gap: 20px;
+}
