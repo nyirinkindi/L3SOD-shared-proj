@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: linear-gradient(135deg,blue,grey);
+            color:white;
+        }
+        h1, h2 {
+            color: white;
+        }
+        p {
+            line-height: 1.6;
+            color: white;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Contact Us</h1>
+    <p>If you have any questions, comments, or inquiries, please feel free to reach out to us. We value your feedback and are here to assist you in any way we can.</p>
+    <h2>Email</h2>
+    <p>You can contact us via email at: <a href="mailto:mugishaguevara12@gmail.com">mugishaguevara12@gmail.com</a></p>
+    <h2>Phone</h2>
+    <p>Give us a call at: +250 791 895 352</p>
+    <h2>Address</h2>
+    <p>Visit us at: Kigali, Rwanda</p> 
+    <h2>Contact Form</h2>
+    <form action="#" method="post">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+</html>

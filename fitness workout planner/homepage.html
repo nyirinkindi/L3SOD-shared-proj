@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+        header {
+            background: linear-gradient(135deg, #001F3F, #0055FF);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        body {
+            background: linear-gradient(135deg, navy, grey);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Times New Roman', Times, serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .hero {
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #001F3F, #0055FF);
+            color: white;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+        }
+
+        .list {
+            display: flex;
+            gap: 20px;
+            list-style-type: none;
+            align-items: center;
+        }
+
+        .list li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .list li a:hover {
+            color: #FFD700;
+            transform: scale(1.1);
+        }
+        section {
+            padding: 100px;
+            flex: 1;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .box {
+            background-image: linear-gradient(135deg, whitesmoke, white);
+            padding: 100px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .box:hover {
+            transform: translateY(-10px);
+        }
+        .box img {
+            max-width: 100px;
+            height: auto;
+            border-radius: 10px;
+            display: grid;
+            margin: 0 auto 10px;
+            align-items: center;
+
+        }
+        .button1 {
+            border: none;
+            border-radius: 25px;
+            padding: 8px 20px;
+            background-color: #FFD700;
+            color: #001F3F;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: auto; 
+            justify-self: end;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .button1:hover {
+            background-color: #FFC107;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="hero">
+            <div class="logo">Fitness Workout Planner</div>
+            <ul class="list">
+                <li><a href="#home">Home</a></li>
+                <li><a href="aboutuspage.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contactus.html">Contact</a></li>
+            </ul>
+        </nav>
+        <button class="button1"><a href="L3SOD-shared-proj/planner.html">Plan for workout</a></button>
+    </header>
+    <main>
+        <section>
+            <h1>Welcome to the Fitness Workout Planner</h1>
+            <p>Your journey to a healthier life starts here!</p>
+        </section>
+        <div class="container">
+        <div class="box"><a href="L3SOD-shared-proj/exercice1.html"><img src="L3SOD-shared-proj/proj image 1.jpg" alt=""></a><H5>PLAN AND DO SOME GYMNASTICS</H5></div>
+        <div class="box"><a href="L3SOD-shared-proj/exercice2.html"><img src="L3SOD-shared-proj/proj image 2.jpg" alt=""></a><H5>PLAN AND DO SOME CARDIO</H5></div>
+        <div class="box"><a href="L3SOD-shared-proj/exercise3.html"><img src="L3SOD-shared-proj/proj image 3.jpg" alt=""></a><H5>PLAN AND DO SOME WARMUP</H5></div>
+        <div class="box"><a href="L3SOD-shared-proj/exercice4.html"><img src="L3SOD-shared-proj/proj image 5.jpg" alt=""></a><H5>PLAN AND DO SOME FULL BODY</H5></div>
+        <div class="box"><a href="L3SOD-shared-proj/exercise5.html"><img src="L3SOD-shared-proj/proj image 6.jpg" alt=""></a><H5>PLAN AND DO SOME HALF BODY</H5></div>
+        <div class="box"><a href="L3SOD-shared-proj/exercise6.html"><img src="L3SOD-shared-proj/proj image 7.jpg" alt=""></a><H5>PLAN AND DO SOME FULL BACK</H5></div>
+        <div class="box"><a href="L3SOD-shared-proj/exercise7.html"><img src="L3SOD-shared-proj/proj image 8.jpg" alt=""></a><H5>PLAN AND DO SOME FULL LEG</H5></div>
+        </div>
+    </main>
+</body>
+</html>
