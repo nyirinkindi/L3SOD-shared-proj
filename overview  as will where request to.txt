@@ -1,0 +1,3 @@
+overview : as will where request to give some summary for what will working on our project
+            
+This project focuses on designing a responsive and visually appealing landing page for a telephone product. The landing page highlights the product’s key features and encourages user engagement.
