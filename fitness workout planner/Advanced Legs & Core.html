@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Box 3 – Advanced Legs & Core</title>
+  <style>
+    body{background:#f4f4f4;font-family:Arial;padding:20px}
+    .card{background:#fff;padding:15px;border-left:5px solid #ef4444;border-radius:8px;max-width:350px}
+    .card-title{font-size:18px;font-weight:bold}
+    .meta{color:#666;font-size:13px;margin-bottom:10px}
+    ul{margin:10px 0;padding-left:18px}
+    .input-row{display:flex;gap:6px}
+    input{flex:1;padding:6px;border:1px solid #ddd;border-radius:6px}
+    button{padding:6px 10px;border:none;border-radius:6px;cursor:pointer}
+    .btn-primary{background:#2563eb;color:white}
+    .btn-ghost{background:#eee}
+    .timer{font-size:18px;font-weight:bold;float:right}
+    .done{color:green;font-weight:bold}
+  </style>
+</head>
+
+<body>
+<div class="card" id="card-3">
+  <div>
+    <span class="card-title">Advanced — Legs & Core</span>
+    <span class="timer" id="timer-3">00:00</span>
+  </div>
+  <div class="meta">3 exercises • high intensity</div>
+
+  <ul id="list-3">
+    <li>Lunges — 20 reps</li>
+    <li>Mountain climbers — 40s</li>
+    <li>Leg raises — 15 reps</li>
+  </ul>
+
+  <div class="input-row">
+    <input id="input-3" placeholder="Add exercise">
+    <button class="btn-ghost" id="add-3">Add</button>
+  </div>
+
+  <br>
+  <button class="btn-primary" id="start-3">Start timer</button>
+  <button class="btn-ghost" id="stop-3">Stop</button>
+  <button class="btn-ghost" id="mark-3">Mark done</button>
+</div>
+
+<script>
+(function(){
+  const list=document.getElementById("list-3");
+  const input=document.getElementById("input-3");
+  const addBtn=document.getElementById("add-3");
+  const timerEl=document.getElementById("timer-3");
+  const start=document.getElementById("start-3");
+  const stop=document.getElementById("stop-3");
+  const mark=document.getElementById("mark-3");
+
+  let sec=0, interval;
+
+  function render(){
+    let m=String(Math.floor(sec/60)).padStart(2,"0");
+    let s=String(sec%60).padStart(2,"0");
+    timerEl.textContent=m+":"+s;
+  }
+
+  addBtn.onclick=()=>{
+    if(input.value.trim()!==""){
+      const li=document.createElement("li");
+      li.textContent=input.value;
+      list.appendChild(li);
+      input.value="";
+    }
+  };
+
+  start.onclick=()=>{
+    clearInterval(interval);
+    interval=setInterval(()=>{sec++;render();},1000);
+  };
+
+  stop.onclick=()=>clearInterval(interval);
+
+  mark.onclick=()=>{
+    document.getElementById("card-3").classList.add("done");
+  };
+})();
+</script>
+
+</body>
+</html>
