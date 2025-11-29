@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core Focus</title>
+<style>
+body{font-family:Arial;background:#f0f0f0;padding:20px;}
+.card{background:#fff;border-left:5px solid #6366f1;padding:15px;border-radius:8px;max-width:400px;margin-bottom:20px;}
+h2{color:#6366f1;}
+ul li{margin-bottom:8px;}
+input{width:70%;padding:6px;margin-right:5px;}
+button{padding:6px 10px;border:none;border-radius:6px;cursor:pointer;}
+.timer{font-weight:bold;float:right;}
+.done{color:green;}
+</style>
+</head>
+<body>
+
+<div class="card" id="card4">
+<h2>Core Focus</h2>
+<span class="timer" id="timer4">00:00</span>
+<ul id="list4">
+<li>Plank — 45s</li>
+<li>Russian Twists — 20 reps</li>
+<li>Bicycle Crunches — 20 reps</li>
+</ul>
+<div>
+<input id="input4" placeholder="Add exercise">
+<button id="add4">Add</button>
+</div>
+<br>
+<button id="start4">Start timer</button>
+<button id="stop4">Stop</button>
+<button id="mark4">Mark done</button>
+</div>
+
+<script>
+(function(){
+let sec=0, interval;
+const list=document.getElementById("list4");
+const input=document.getElementById("input4");
+const addBtn=document.getElementById("add4");
+const timer=document.getElementById("timer4");
+const start=document.getElementById("start4");
+const stop=document.getElementById("stop4");
+const mark=document.getElementById("mark4");
+function render(){let m=String(Math.floor(sec/60)).padStart(2,"0");let s=String(sec%60).padStart(2,"0");timer.textContent=m+":"+s;}
+addBtn.onclick=()=>{if(input.value.trim()!==""){let li=document.createElement("li");li.textContent=input.value;list.appendChild(li);input.value="";}};
+start.onclick=()=>{clearInterval(interval);interval=setInterval(()=>{sec++;render();},1000);};
+stop.onclick=()=>clearInterval(interval);
+mark.onclick=()=>{document.getElementById("card4").classList.add("done");};
+})();
+</script>
+
+</body>
+</html>
