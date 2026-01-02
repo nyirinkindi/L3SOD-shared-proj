@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(120deg, #6a11cb, #2575fc);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 350px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.field {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+
+input:focus {
+    border-color: #2575fc;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #2575fc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
